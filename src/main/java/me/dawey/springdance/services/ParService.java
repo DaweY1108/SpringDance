@@ -1,7 +1,7 @@
-package me.dawey.springdance.Services;
+package me.dawey.springdance.services;
 
-import me.dawey.springdance.Models.Par;
-import me.dawey.springdance.Repos.ParRepository;
+import me.dawey.springdance.models.Par;
+import me.dawey.springdance.repos.ParRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
-package me.dawey.springdance.Repos;
+package me.dawey.springdance.repos;
 
 
-import me.dawey.springdance.Models.Tag;
+import me.dawey.springdance.models.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {

@@ -1,6 +1,6 @@
-package me.dawey.springdance.Repos;
+package me.dawey.springdance.repos;
 
-import me.dawey.springdance.Models.Tanc;
+import me.dawey.springdance.models.Tanc;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TancRepository extends JpaRepository<Tanc, Integer> {

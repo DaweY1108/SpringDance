@@ -1,7 +1,7 @@
-package me.dawey.springdance.Services;
+package me.dawey.springdance.services;
 
-import me.dawey.springdance.Models.Tag;
-import me.dawey.springdance.Repos.TagRepository;
+import me.dawey.springdance.models.Tag;
+import me.dawey.springdance.repos.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

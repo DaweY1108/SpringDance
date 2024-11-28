@@ -1,10 +1,7 @@
-package me.dawey.springdance.Models;
+package me.dawey.springdance.models;
 
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
-
-import java.util.Date;
 
 @Entity
 @Table(name = "par")

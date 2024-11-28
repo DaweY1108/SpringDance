@@ -1,23 +1,27 @@
-package me.dawey.springdance.Models;
+package me.dawey.springdance.models;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 
+
 import java.util.Date;
 
 @Entity
-@Table(name = "tanc")
-public class Tanc {
+@Table(name = "tag")
+public class Tag {
     @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "datum")
-    private Date datum;
-
     @Column(name = "nev")
     private String nev;
+
+    @Column(name = "ferfi")
+    private double ferfi;
+
+    @Column(name = "szulido")
+    private Date szulido;
 
     public void setId(Long id) {
         this.id = Math.toIntExact(id);
@@ -25,16 +29,23 @@ public class Tanc {
     public Long getId() {
         return (long) id;
     }
-    public Date getDatum() {
-        return datum;
-    }
-    public void setDatum(Date datum) {
-        this.datum = datum;
-    }
     public String getNev() {
         return nev;
     }
     public void setNev(String nev) {
         this.nev = nev;
+    }
+    public double getFerfi() {
+        return ferfi;
+    }
+    public void setFerfi(double ferfi) {
+        this.ferfi = ferfi;
+    }
+
+    public Date getSzulido() {
+        return szulido;
+    }
+    public void setSzulido(Date szulido) {
+        this.szulido = szulido;
     }
 }

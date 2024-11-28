@@ -1,7 +1,7 @@
-package me.dawey.springdance.Controllers;
+package me.dawey.springdance.controllers.API;
 
-import me.dawey.springdance.Models.Tag;
-import me.dawey.springdance.Services.TagService;
+import me.dawey.springdance.models.Tag;
+import me.dawey.springdance.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

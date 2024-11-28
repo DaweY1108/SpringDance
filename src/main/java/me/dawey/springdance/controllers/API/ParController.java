@@ -1,6 +1,6 @@
-package me.dawey.springdance.Controllers;
-import me.dawey.springdance.Models.Par;
-import me.dawey.springdance.Services.ParService;
+package me.dawey.springdance.controllers.API;
+import me.dawey.springdance.models.Par;
+import me.dawey.springdance.services.ParService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

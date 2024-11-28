@@ -25,8 +25,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/register", "/login").permitAll()
-                        .anyRequest().authenticated()
+                        // Engedélyezzük a hozzáférést a nem bejelentkezett felhasználóknak.
+                        .requestMatchers("/css/**", "/js/**", "/assets/**", "/register", "/login").permitAll() // Allow access to static resources
+                        .anyRequest().authenticated() // Protect other endpoints
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

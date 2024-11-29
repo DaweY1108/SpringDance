@@ -26,8 +26,16 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // Engedélyezzük a hozzáférést a nem bejelentkezett felhasználóknak.
-                        .requestMatchers("/css/**", "/js/**", "/assets/**", "/register", "/login").permitAll() // Allow access to static resources
-                        .anyRequest().authenticated() // Protect other endpoints
+                        .requestMatchers(
+                                "/css/**",
+                                "/js/**",
+                                "/assets/**",
+                                "/register",
+                                "/login",
+                                "/",
+                                "/dancetable"
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

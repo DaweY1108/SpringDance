@@ -20,12 +20,12 @@ public class ParService {
         return parRepository.save(par);
     }
 
-    public Par findById(Long id) {
-        return parRepository.findById(Math.toIntExact(id)).orElse(null);
+    public Par findById(int id) {
+        return parRepository.findById(id).orElse(null);
     }
 
-    public void delete(Long id) {
-        parRepository.deleteById(Math.toIntExact(id));
+    public void delete(int id) {
+        parRepository.deleteById(id);
     }
 
     // Other CRUD methods

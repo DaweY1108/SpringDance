@@ -2,6 +2,7 @@ package me.dawey.springdance.models;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.Constraint;
 
 @Entity
 @Table(name = "par")
@@ -11,14 +12,17 @@ public class Par {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "tancid")
-    private int tancId;
+    @ManyToOne
+    @JoinColumn(name = "tancid", nullable = false)
+    private Tanc tanc;
 
-    @Column(name = "ferfiid")
-    private int ferfiId;
+    @ManyToOne
+    @JoinColumn(name = "ferfiid", nullable = false)
+    private Tag ferfi;
 
-    @Column(name = "noid")
-    private int noId;
+    @ManyToOne
+    @JoinColumn(name = "noid", nullable = false)
+    private Tag no;
 
     // Getters and Setters
     public int getId() {
@@ -29,37 +33,50 @@ public class Par {
         this.id = id;
     }
 
-    public int getTancId() {
-        return tancId;
+    public Tanc getTanc() {
+        return tanc;
     }
 
-    public void setTancId(int tancId) {
-        this.tancId = tancId;
+    public void setTanc(Tanc tanc) {
+        this.tanc = tanc;
     }
 
-    public int getFerfiId() {
-        return ferfiId;
+    public Tag getFerfi() {
+        return ferfi;
     }
 
-    public void setFerfiId(int ferfiId) {
-        this.ferfiId = ferfiId;
+    public void setFerfi(Tag ferfi) {
+        this.ferfi = ferfi;
     }
 
-    public int getNoId() {
-        return noId;
+    public Tag getNo() {
+        return no;
     }
 
-    public void setNoId(int noId) {
-        this.noId = noId;
+    public void setNo(Tag no) {
+        this.no = no;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Par)) return false;
+
+        Par par = (Par) o;
+
+        if (getId() != par.getId()) return false;
+        if (!getTanc().equals(par.getTanc())) return false;
+        if (!getFerfi().equals(par.getFerfi())) return false;
+        return getNo().equals(par.getNo());
     }
 
     @Override
     public String toString() {
         return "Par{" +
                 "id=" + id +
-                ", tancId=" + tancId +
-                ", ferfiId=" + ferfiId +
-                ", noId=" + noId +
+                ", tanc=" + getTanc().toString() +
+                ", ferfi=" + getFerfi().toString() +
+                ", no=" + getNo().toString() +
                 '}';
     }
 }

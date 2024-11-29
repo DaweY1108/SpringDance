@@ -23,7 +23,7 @@ public class ParController {
     }
 
     @GetMapping("/{id}")
-    public Par get(@PathVariable Long id) {
+    public Par get(@PathVariable int id) {
 
         Par p = parService.findById(id);
 
@@ -33,7 +33,7 @@ public class ParController {
     // Other CRUD methods
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable int id) {
         parService.delete(id);
     }
 

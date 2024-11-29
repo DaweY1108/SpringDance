@@ -26,7 +26,7 @@ public class TancService {
         return tancRepository.save(tanc);
     }
 
-    public void deleteById(int id) {
+    public void delete(int id) {
         tancRepository.deleteById(id);
     }
 }

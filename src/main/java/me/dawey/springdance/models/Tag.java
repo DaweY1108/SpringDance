@@ -23,11 +23,11 @@ public class Tag {
     @Column(name = "szulido")
     private Date szulido;
 
-    public void setId(Long id) {
-        this.id = Math.toIntExact(id);
+    public void setId(int id) {
+        this.id = id;
     }
-    public Long getId() {
-        return (long) id;
+    public int getId() {
+        return id;
     }
     public String getNev() {
         return nev;
@@ -47,5 +47,15 @@ public class Tag {
     }
     public void setSzulido(Date szulido) {
         this.szulido = szulido;
+    }
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", nev='" + nev + '\'' +
+                ", ferfi=" + ferfi +
+                ", szulido=" + szulido +
+                '}';
     }
 }

@@ -19,11 +19,11 @@ public class Tanc {
     @Column(name = "nev")
     private String nev;
 
-    public void setId(Long id) {
-        this.id = Math.toIntExact(id);
+    public void setId(int id) {
+        this.id = id;
     }
-    public Long getId() {
-        return (long) id;
+    public int getId() {
+        return id;
     }
     public Date getDatum() {
         return datum;
@@ -36,5 +36,14 @@ public class Tanc {
     }
     public void setNev(String nev) {
         this.nev = nev;
+    }
+
+    @Override
+    public String toString() {
+        return "Tanc{" +
+                "id=" + id +
+                ", datum=" + datum +
+                ", nev='" + nev + '\'' +
+                '}';
     }
 }

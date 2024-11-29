@@ -43,7 +43,7 @@ public class AuthController {
             userService.registerNewUser(user);
             return "redirect:/login?success";
         } catch (Exception e) {
-            model.addAttribute("error", "Registration failed. Username or email might already exist.");
+            model.addAttribute("error", "Felhasználó már létezik ezzel a név-email párossal!");
             return "register";
         }
     }

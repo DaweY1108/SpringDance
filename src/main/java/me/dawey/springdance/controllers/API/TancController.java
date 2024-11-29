@@ -40,6 +40,6 @@ public class TancController {
 
     @DeleteMapping("/{id}")
     public void deleteTanc(@PathVariable int id) {
-        tancService.deleteById(id);
+        tancService.delete(id);
     }
 }

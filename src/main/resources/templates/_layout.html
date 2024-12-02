@@ -28,6 +28,8 @@ Ez a layout oldal. Itt található a weboldal keretje.
       <ul class="navbar-nav mx-auto">
         <li class="nav-item"><a href="/" class="nav-link">Főoldal</a></li>
         <li class="nav-item"><a href="/dancetable" class="nav-link">Adatok</a></li>
+        <li class="nav-item"><a href="/feedback" class="nav-link">Visszajelzés</a></li>
+        <li sec:authorize="hasRole('Admin')" class="nav-item"><a href="/feedback-admin" class="nav-link">Visszajelzések</a></li>
       </ul>
       <div class="d-flex">
         <!-- Conditional rendering based on authentication -->

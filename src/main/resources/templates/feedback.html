@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      layout:decorate="_layout"
+>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- Success Message -->
+                <div th:if="${param.success}" class="alert alert-success text-center" role="alert">
+                    Visszajelzése sikeresen elküldve!
+                </div>
+
+                <!-- Error Message -->
+                <div th:if="${errorMessage}" class="alert alert-danger text-center" role="alert">
+                    <span th:text="${errorMessage}">Hiba történt!</span>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-header text-center bg-dark text-white">
+                        <h3>Visszajelzés</h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/feedback}" method="post">
+                            <div sec:authorize="!isAuthenticated()" class="mb-3">
+                                <label for="email" class="form-label">Email cím</label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Email cím">
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Üzenet</label>
+                                <textarea id="message" name="message" class="form-control" rows="5" placeholder="Írja meg visszajelzését"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-dark">Küldés</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

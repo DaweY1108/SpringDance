@@ -1,4 +1,4 @@
-package me.dawey.springdance.config; // Note the lowercase 'c'
+package me.dawey.springdance.config;
 
 import me.dawey.springdance.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
@@ -33,9 +33,16 @@ public class SecurityConfig {
                                 "/register",
                                 "/login",
                                 "/",
-                                "/dancetable"
+                                "/dancetable",
+                                "/feedback"
                         ).permitAll()
+                        .requestMatchers(
+                                "/feedback-admin/**"
+                        ).hasRole("Admin")
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(e -> e
+                        .accessDeniedPage("/403")
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

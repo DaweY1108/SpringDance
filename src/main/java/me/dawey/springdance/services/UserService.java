@@ -5,6 +5,8 @@ import me.dawey.springdance.repos.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -14,6 +16,20 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public User findByName(String name) {
+        return userRepository.findByName(name).orElse(null);
+    }
+
+    public boolean existsByEmail(String email) {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public User registerNewUser(User user) {

@@ -34,7 +34,8 @@ public class SecurityConfig {
                                 "/login",
                                 "/",
                                 "/dancetable",
-                                "/feedback"
+                                "/feedback",
+                                "/api/**"
                         ).permitAll()
                         .requestMatchers(
                                 "/feedback-admin/**"

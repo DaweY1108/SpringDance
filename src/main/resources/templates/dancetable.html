@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      layout:decorate="_layout">
+<head>
+    <title>SpringDance - Táncok</title>
+    <link rel="stylesheet" href="css/dancetable.css">
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Pairs Section -->
+    <div id="pairs" class="card mt-4">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h2>Párok</h2>
+            <button sec:authorize="hasRole('Admin')" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addPairModal">
+                <i class="bi bi-plus"></i> Új Pár
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table table-hover sticky-header">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tánc</th>
+                        <th>Férfi</th>
+                        <th>Nő</th>
+                        <th sec:authorize="hasRole('Admin')" style="width: 250px;">Műveletek</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="par : ${pairs}">
+                    <tr>
+                        <td th:text="${par.id}"></td>
+                        <td th:text="${par.tanc.getNev()}"></td>
+                        <td th:text="${par.ferfi.getNev()}"></td>
+                        <td th:text="${par.no.getNev()}"></td>
+                        <td sec:authorize="hasRole('Admin')">
+                            <div class="d-flex">
+                                <button class="btn btn-sm btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editPairModal"
+                                        th:attr="data-id=${par.id}" onclick="populateEditPairModal(this)">
+                                    <i class="bi bi-pencil"></i> Módosítás
+                                </button>
+                                <form th:action="@{/pairs/delete/{id}(id=${par.id})}" method="post">
+                                    <input type="hidden" name="_method" value="delete"/>
+                                    <button class="btn btn-sm btn-danger mx-1" type="submit">
+                                        <i class="bi bi-trash"></i> Törlés
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Pair Modal -->
+    <div class="modal fade" id="addPairModal" tabindex="-1" aria-labelledby="addPairModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form th:action="@{/pairs/add}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addPairModalLabel">Új Pár Hozzáadása</h5>
+                        <button type="button" class="btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="tancId" class="form-label">Tánc</label>
+                            <select class="form-control" id="tancId" name="tanc" required>
+                                <option th:each="tanc : ${dances}" th:value="${tanc.getId()}" th:text="${tanc.getNev()}">Tánc neve</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ferfiId" class="form-label">Férfi</label>
+                            <select class="form-control" id="ferfiId" name="ferfiId" required>
+                                <option th:each="ferfi : ${ferfiTags} " th:value="${ferfi.getId()}" th:text="${ferfi.getNev()}">Férfi neve</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="noId" class="form-label">Nő</label>
+                            <select class="form-control" id="noId" name="noId" required>
+                                <option th:each="no : ${noTags} " th:value="${no.getId()}" th:text="${no.getNev()}">Nő neve</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Mentés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Pair Modal -->
+    <div class="modal fade" id="editPairModal" tabindex="-1" aria-labelledby="editPairModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form th:action="@{/pairs/edit}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editPairModalLabel">Pár Módosítása</h5>
+                        <button type="button" class="btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editPairId" name="id">
+                        <div class="mb-3">
+                            <label for="editTancId" class="form-label">Tánc</label>
+                            <select class="form-control" id="editTancId" name="tanc" required>
+                                <option th:each="tanc : ${dances}" th:value="${tanc.getId()}" th:text="${tanc.getNev()}">Tánc neve</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editFerfiId" class="form-label">Férfi</label>
+                            <select class="form-control" id="editFerfiId" name="ferfiId" required>
+                                <option th:each="ferfi : ${ferfiTags}" th:value="${ferfi.getId()}" th:text="${ferfi.getNev()}">Férfi neve</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNoId" class="form-label">Nő</label>
+                            <select class="form-control" id="editNoId" name="noId" required>
+                                <option th:each="no : ${noTags}" th:value="${no.getId()}" th:text="${no.getNev()}">Nő neve</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Mentés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dances Section -->
+    <div id="dances" class="card mt-4">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h2>Táncok</h2>
+            <button sec:authorize="hasRole('Admin')" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addDanceModal">
+                <i class="bi bi-plus"></i> Új Tánc
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table table-hover sticky-header">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Név</th>
+                        <th>Dátum</th>
+                        <th sec:authorize="hasRole('Admin')" style="width: 250px;">Műveletek</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="dance : ${dances}">
+                    <tr>
+                        <td th:text="${dance.id}"></td>
+                        <td th:text="${dance.nev}"></td>
+                        <td th:text="${#dates.format(dance.datum, 'yyyy-MM-dd')}"></td>
+                        <td sec:authorize="hasRole('Admin')">
+                            <div class="d-flex">
+                                <button class="btn btn-sm btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editDanceModal"
+                                        th:attr="data-id=${dance.id}" onclick="populateEditDanceModal(this)">
+                                    <i class="bi bi-pencil"></i> Módosítás
+                                </button>
+                                <form th:action="@{/dances/delete/{id}(id=${dance.id})}" method="post">
+                                    <input type="hidden" name="_method" value="delete"/>
+                                    <button class="btn btn-sm btn-danger mx-1" type="submit">
+                                        <i class="bi bi-trash"></i> Törlés
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Dance Modal -->
+    <div class="modal fade" id="addDanceModal" tabindex="-1" aria-labelledby="addDanceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form th:action="@{/dances/add}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addDanceModalLabel">Új Tánc Hozzáadása</h5>
+                        <button type="button" class="btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <div class="mb-3">
+                            <label for="nev" class="form-label">Név</label>
+                            <input type="text" id="nev" name="nev" class="form-control" placeholder="Név" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="datum" class="form-label">Dátum</label>
+                            <input type="date" id="datum" name="datum" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Mentés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Dance Modal -->
+    <div class="modal fade" id="editDanceModal" tabindex="-1" aria-labelledby="editDanceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form th:action="@{/dances/edit}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editDanceModalLabel">Tánc Módosítása</h5>
+                        <button type="button" class="btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <input type="hidden" id="editDanceId" name="id">
+                        <div class="mb-3">
+                            <label for="editNev" class="form-label">Név</label>
+                            <input type="text" id="editNev" name="nev" class="form-control" placeholder="Név" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDatum" class="form-label">Dátum</label>
+                            <input type="date" id="editDatum" name="datum" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Mentés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tags Section -->
+    <div id="tags" class="card mt-4">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h2>Tagok</h2>
+            <button sec:authorize="hasRole('Admin')" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addTagModal">
+                <i class="bi bi-plus"></i> Új Tag
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table table-hover sticky-header">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Név</th>
+                        <th>Szül. idő</th>
+                        <th sec:authorize="hasRole('Admin')">Férfi</th>
+                        <th sec:authorize="hasRole('Admin')" style="width: 250px;">Műveletek</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="tag : ${tags}">
+                    <tr>
+                        <td th:text="${tag.id}"></td>
+                        <td th:text="${tag.nev}"></td>
+                        <td th:text="${#dates.format(tag.szulido, 'yyyy-MM-dd')}"></td>
+                        <td sec:authorize="hasRole('Admin')", th:text="${tag.ferfi}"></td>
+                        <td sec:authorize="hasRole('Admin')">
+                            <div class="d-flex">
+                                <button class="btn btn-sm btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#editTagModal"
+                                        th:attr="data-id=${tag.id}" onclick="populateEditTagModal(this)">
+                                    <i class="bi bi-pencil"></i> Módosítás
+                                </button>
+                                <form th:action="@{/tags/delete/{id}(id=${tag.id})}" method="post">
+                                    <input type="hidden" name="_method" value="delete"/>
+                                    <button class="btn btn-sm btn-danger mx-1" type="submit">
+                                        <i class="bi bi-trash"></i> Törlés
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Tag Modal -->
+    <div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form th:action="@{/tags/add}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addTagModalLabel">Új Tag Hozzáadása</h5>
+                        <button type="button" class="btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <div class="mb-3">
+                            <label for="nev" class="form-label">Név</label>
+                            <input type="text" id="tagnev" name="nev" class="form-control" placeholder="Név" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="szulido" class="form-label">Születési idő</label>
+                            <input type="date" id="szulido" name="szulido" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nem</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ferfi" id="ferfi_igen" value="true">
+                                <label class="form-check-label" for="ferfi_igen">Férfi</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ferfi" id="ferfi_nem" value="false">
+                                <label class="form-check-label" for="ferfi_nem">Nő</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Mentés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Tag Modal -->
+    <div class="modal fade" id="editTagModal" tabindex="-1" aria-labelledby="editTagModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form th:action="@{/tags/edit}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editTagModalLabel">Tag Módosítása</h5>
+                        <button type="button" class="btn-danger rounded" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <input type="hidden" id="editTagId" name="id">
+                        <div class="mb-3">
+                            <label for="editTagNev" class="form-label">Név</label>
+                            <input type="text" id="editTagNev" name="nev" class="form-control" placeholder="Név" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editSzulido" class="form-label">Születési idő</label>
+                            <input type="date" id="editSzulido" name="szulido" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nem</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ferfi" id="editFerfi_igen" value="true">
+                                <label class="form-check-label" for="editFerfi_igen">Férfi</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ferfi" id="editFerfi_nem" value="false">
+                                <label class="form-check-label" for="editFerfi_nem">Nő</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Mentés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+    <!-- JavaScript for populating edit modal -->
+    <script>
+        function populateEditPairModal(button) {
+            const pairId = button.getAttribute('data-id');
+            const row = button.closest('tr');
+            const tancName = row.querySelector('td:nth-child(2)').textContent;
+            const ferfiName = row.querySelector('td:nth-child(3)').textContent;
+            const noName = row.querySelector('td:nth-child(4)').textContent;
+
+            // Find the correct ID from the select options
+            const tancId = Array.from(document.getElementById('editTancId').options)
+                .find(option => option.text === tancName)?.value;
+            const ferfiId = Array.from(document.getElementById('editFerfiId').options)
+                .find(option => option.text === ferfiName)?.value;
+            const noId = Array.from(document.getElementById('editNoId').options)
+                .find(option => option.text === noName)?.value;
+
+            document.getElementById('editPairId').value = pairId;
+            document.getElementById('editTancId').value = tancId;
+            document.getElementById('editFerfiId').value = ferfiId;
+            document.getElementById('editNoId').value = noId;
+        }
+
+        function populateEditDanceModal(button) {
+            const danceId = button.getAttribute('data-id');
+            const row = button.closest('tr');
+            const nev = row.querySelector('td:nth-child(2)').textContent;
+            const datumText = row.querySelector('td:nth-child(3)').textContent;
+
+            document.getElementById('editDanceId').value = danceId;
+            document.getElementById('editNev').value = nev;
+            document.getElementById('editDatum').value = datumText;
+        }
+
+        function populateEditTagModal(button) {
+            const tagId = button.getAttribute('data-id');
+            const row = button.closest('tr');
+            const nev = row.querySelector('td:nth-child(2)').textContent;
+            const szulidoText = row.querySelector('td:nth-child(3)').textContent;
+            const ferfi = row.querySelector('td:nth-child(4)').textContent;
+
+            document.getElementById('editTagId').value = tagId;
+            document.getElementById('editTagNev').value = nev;
+            document.getElementById('editSzulido').value = szulidoText;
+
+            console.log(ferfi.toLowerCase());
+
+            // Set the correct radio button for gender
+            const ferfiRadioYes = document.getElementById('editFerfi_igen');
+            const ferfiRadioNo = document.getElementById('editFerfi_nem');
+
+            if (ferfi.toLowerCase() === "1.0") {
+                ferfiRadioYes.checked = true;
+            } else {
+                ferfiRadioNo.checked = true;
+            }
+        }
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+body {
+    background-color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.hero-section {
+    padding: 100px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+.feature-section {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+}
+.dance-class-card {
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: none;
+}
+.dance-class-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+.dance-class-card img {
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.dance-class-card:hover img {
+    transform: scale(1.1);
+}
+.testimonial-section {
+    background-color: white;
+    padding: 80px 0;
+}
+.cta-button {
+    transition: all 0.3s ease;
+}
+.cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}

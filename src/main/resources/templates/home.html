@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="_layout"
+>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpringDance - Néptáncoljunk Együtt!</title>
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+<div layout:fragment="content">
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <div class="container">
+      <h1 class="display-3 mb-4">SpringDance</h1>
+      <p class="lead mb-5">Fedezd fel a néptánc varázslatos világát! Táncoljuk együtt hagyományainkat.</p>
+      <a th:href="${#authorization.expression('isAnonymous()')} ? @{/register} : @{/dancetable}"
+         class="btn btn-light btn-lg px-5 py-3 rounded-pill cta-button">
+        Csatlakozz Most!
+      </a>
+    </div>
+  </section>
+
+  <!-- Dance Classes Section -->
+  <section id="classes" class="feature-section">
+    <div class="container">
+      <h2 class="text-center mb-5">Néptáncórák</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card dance-class-card">
+            <img src="assets/csardas.png" alt="Csárdás tánc" class="card-img-top">
+            <div class="card-body text-center">
+              <h3 class="card-title">Csárdás</h3>
+              <p class="card-text">Klasszikus páros tánc, melynek sok fajtája van.</p>
+              <a th:href="${#authorization.expression('isAnonymous()')} ? @{/register} : @{/dancetable}"
+                 class="btn btn-primary">Jelentkezés</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card dance-class-card">
+            <img src="assets/verbunk.png" alt="Verbunk tánc" class="card-img-top">
+            <div class="card-body text-center">
+              <h3 class="card-title">Verbunk</h3>
+              <p class="card-text">Általában férfi tánc, amivel az ifjakat a sorozáskor csábították a katonaságba.</p>
+              <a th:href="${#authorization.expression('isAnonymous()')} ? @{/register} : @{/dancetable}"
+                 class="btn btn-primary">Jelentkezés</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card dance-class-card">
+            <img src="assets/palotas.jpg" alt="Palotás tánc" class="card-img-top">
+            <div class="card-body text-center">
+              <h3 class="card-title">Palotás</h3>
+              <p class="card-text">Nemesi táncok eleganciája és méltósága.</p>
+              <a th:href="${#authorization.expression('isAnonymous()')} ? @{/register} : @{/dancetable}"
+                 class="btn btn-primary">Jelentkezés</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial Section -->
+  <section class="testimonial-section">
+    <div class="container">
+      <h2 class="text-center mb-5">Mit mondanak rólunk</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <blockquote class="blockquote text-center">
+            <p>"A néptánc segített megérteni a gyökereinket!"</p>
+            <footer class="blockquote-footer">- Nagy Anna</footer>
+          </blockquote>
+        </div>
+        <div class="col-md-4 mb-4">
+          <blockquote class="blockquote text-center">
+            <p>"Soha nem éreztem magam ennyire otthon a táncban!"</p>
+            <footer class="blockquote-footer">- Kovács Péter</footer>
+          </blockquote>
+        </div>
+        <div class="col-md-4 mb-4">
+          <blockquote class="blockquote text-center">
+            <p>"Olyan csapást tanultam, hogy az Eszti egyből rám vetette magát!"</p>
+            <footer class="blockquote-footer">- Szabó Eszter</footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

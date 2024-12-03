@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout"
+>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div th:if="${param.success}" class="alert alert-success">
+                    Sikeres regisztráció! Kérjük, jelentkezzen be.
+                </div>
+                <div th:if="${error}" class="alert alert-danger" th:text="${error}">
+                    Hiba történt a regisztráció során.
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-header text-center bg-dark text-white">
+                        <h3>Regisztráció</h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/register}" th:object="${user}" method="post">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Felhasználónév</label>
+                                <input type="text" id="username" th:field="*{name}" class="form-control" placeholder="Felhasználónév" required>
+                                <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="E-mail" required>
+                                <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Jelszó</label>
+                                <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="Jelszó" required>
+                                <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-dark">Regisztráció</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <small>Már van fiókod? <a href="/login" class="text-primary">Bejelentkezés</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

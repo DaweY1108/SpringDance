@@ -113,6 +113,26 @@ public class APIController {
         return ResponseEntity.ok(tancService.save(tanc));
     }
 
+    @PutMapping("/tanc/{id}")
+    public ResponseEntity<Tanc> editDance(
+            @PathVariable int id,
+            @RequestParam("nev") String nev,
+            @RequestParam("datum") String datum) {
+
+        Tanc existingTanc = tancService.findById(id).orElseThrow(() -> new RuntimeException("Tanc not found"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date;
+        try {
+            date = formatter.parse(datum);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        existingTanc.setNev(nev);
+        existingTanc.setDatum(date);
+        return ResponseEntity.ok(tancService.save(existingTanc));
+    }
+
     @DeleteMapping("/tanc/{id}")
     public ResponseEntity<Void> deleteDance(@PathVariable int id) {
         tancService.delete(id);
@@ -146,6 +166,29 @@ public class APIController {
         tag.setSzulido(date);
 
         return ResponseEntity.ok(tagService.save(tag));
+    }
+
+    @PutMapping("/tag/{id}")
+    public ResponseEntity<Tag> editTag(
+            @PathVariable int id,
+            @RequestParam("nev") String nev,
+            @RequestParam("ferfi") boolean ferfi,
+            @RequestParam("szulido") String szulido) {
+
+        Tag existingTag = tagService.findById(id).orElseThrow(() -> new RuntimeException("Tag not found"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date;
+        try {
+            date = formatter.parse(szulido);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        existingTag.setNev(nev);
+        existingTag.setFerfi(ferfi ? 1 : 0);
+        existingTag.setSzulido(date);
+
+        return ResponseEntity.ok(tagService.save(existingTag));
     }
 
     @DeleteMapping("/tag/{id}")
